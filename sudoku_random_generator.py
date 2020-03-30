@@ -111,9 +111,12 @@ def create_valid_sudoku():
                     break
     return sudoku_lattice
 
-sudoku = create_valid_sudoku()
+for _ in range(3):
 
-while 0 in np.reshape(np.array(sudoku), 81):
     sudoku = create_valid_sudoku()
 
-print(np.array(sudoku))
+    while 0 in np.reshape(np.array(sudoku), 81):
+        sudoku = create_valid_sudoku()
+
+    print(np.array(sudoku))
+    print('---------------------')
