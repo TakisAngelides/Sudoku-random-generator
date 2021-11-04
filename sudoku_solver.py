@@ -1,6 +1,6 @@
 import numpy as np
 
-def get_neighbours():
+def get_neighbours_old():
 
     neighbours_1 = {(0, 0): [(0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2), (2, 0), (2, 1), (2, 2)],
                     (0, 1): [(0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2), (2, 0), (2, 1), (2, 2)],
@@ -89,6 +89,65 @@ def get_neighbours():
 
     return neighbours
 
+def get_neighbours():
+
+    neighbours = {}
+
+    tmp = np.zeros((9, 9), dtype = 'int, int')
+
+    for row in range(9):
+        for col in range(9):
+
+            tmp[row][col] = (row, col)
+
+    neighbours_1 = [tmp[row][col] for row in range(0, 3) for col in range(0, 3)]
+    neighbours_2 = [tmp[row][col] for row in range(3, 6) for col in range(0, 3)]
+    neighbours_3 = [tmp[row][col] for row in range(6, 9) for col in range(0, 3)]
+    neighbours_4 = [tmp[row][col] for row in range(0, 3) for col in range(3, 6)]
+    neighbours_5 = [tmp[row][col] for row in range(3, 6) for col in range(3, 6)]
+    neighbours_6 = [tmp[row][col] for row in range(6, 9) for col in range(3, 6)]
+    neighbours_7 = [tmp[row][col] for row in range(0, 3) for col in range(6, 9)]
+    neighbours_8 = [tmp[row][col] for row in range(3, 6) for col in range(6, 9)]
+    neighbours_9 = [tmp[row][col] for row in range(6, 9) for col in range(6, 9)]
+
+    for row in range(0, 3):
+        for col in range(0, 3):
+            neighbours[(row, col)] = neighbours_1
+
+    for row in range(3, 6):
+        for col in range(0, 3):
+            neighbours[(row, col)] = neighbours_2
+
+    for row in range(6, 9):
+        for col in range(0, 3):
+            neighbours[(row, col)] = neighbours_3
+
+    for row in range(0, 3):
+        for col in range(3, 6):
+            neighbours[(row, col)] = neighbours_4
+
+    for row in range(3, 6):
+        for col in range(3, 6):
+            neighbours[(row, col)] = neighbours_5
+
+    for row in range(6, 9):
+        for col in range(3, 6):
+            neighbours[(row, col)] = neighbours_6
+
+    for row in range(0, 3):
+        for col in range(6, 9):
+            neighbours[(row, col)] = neighbours_7
+
+    for row in range(3, 6):
+        for col in range(6, 9):
+            neighbours[(row, col)] = neighbours_8
+
+    for row in range(6, 9):
+        for col in range(6, 9):
+            neighbours[(row, col)] = neighbours_9
+
+    return neighbours
+
 def possible_move(row, col, num):
 
     global sudoku_state
@@ -162,6 +221,27 @@ def sudoku_solver():
                     return
 
     print(np.asarray(sudoku_state))
+    sudoku_check(sudoku_state)
+
+def sudoku_check(s):
+
+    for row in s:
+
+        if np.array(row).sum() != 45:
+
+            print('The sudoku has an error.')
+            return
+
+    s_transpose = np.array(s).transpose()
+
+    for col in s_transpose:
+
+        if np.array(col).sum() != 45:
+
+            print('The sudoku has an error.')
+            return
+
+    print('The sudoku has been solved correctly.')
 
 neighbours = get_neighbours()
 
